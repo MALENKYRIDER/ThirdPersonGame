@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button _quitButton;
     [SerializeField] private TMP_InputField _levelInput;
     [SerializeField] private Image _incorrectLevelIndicator;
+    [SerializeField] private TMP_Text _incorrectInputText;
 
     private int _selectedLevel;
 
@@ -27,6 +28,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        _incorrectInputText.enabled = false;
         _incorrectLevelIndicator.enabled = false;
     }
 
@@ -38,6 +40,7 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
+            _incorrectInputText.enabled = true;
             _incorrectLevelIndicator.enabled = true;
             Debug.Log($"There is no level {_selectedLevel}");
         }
@@ -58,6 +61,7 @@ public class MainMenu : MonoBehaviour
 
         if (LevelManager.IsLevelCorrect(_selectedLevel))
         {
+            _incorrectInputText.enabled = false;
             _incorrectLevelIndicator.enabled = false;
         }
     }
