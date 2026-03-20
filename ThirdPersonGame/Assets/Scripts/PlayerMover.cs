@@ -11,10 +11,22 @@ public class PlayerMover : MonoBehaviour
     private CharacterController _characterController;
     private Vector3 _moveDirection;
     private float _moveDirectionY;
+    private Animator _animator;
 
+    private void OnFlyStart()
+    {
+        Debug.Log("OnFlyStart");
+    }
+
+    private void OnFlyEnd()
+    {
+        Debug.Log("OnFlyEnd");
+    }
+    
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -49,6 +61,8 @@ public class PlayerMover : MonoBehaviour
         velocity.y = _moveDirectionY;
 
         _characterController.Move(velocity * Time.deltaTime);
+        
+        _animator.SetBool(AnimatortParameters.IsFlying, !_characterController.isGrounded);
     }
 
     private void OnJump()
