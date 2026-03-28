@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerMover : MonoBehaviour
@@ -7,6 +8,8 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _gravity;
+    [SerializeField] private Transform _body;
+    [SerializeField] private Transform _animationTarget;
 
     private CharacterController _characterController;
     private Vector3 _moveDirection;
@@ -27,6 +30,13 @@ public class PlayerMover : MonoBehaviour
     {
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        _body.DOMoveY(_animationTarget.position.y, 1f)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
     }
 
     private void OnEnable()

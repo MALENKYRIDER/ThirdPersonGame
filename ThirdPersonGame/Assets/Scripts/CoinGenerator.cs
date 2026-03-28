@@ -38,9 +38,4 @@ public class CoinGenerator : MonoBehaviour
     {
         yield return null;
     }
-
-    private void OnEnable()
-    {
-        
-    }
 }
