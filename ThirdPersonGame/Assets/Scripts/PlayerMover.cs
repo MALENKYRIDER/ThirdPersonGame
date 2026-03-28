@@ -15,17 +15,8 @@ public class PlayerMover : MonoBehaviour
     private Vector3 _moveDirection;
     private float _moveDirectionY;
     private Animator _animator;
+    private bool _isJumping;
 
-    private void OnFlyStart()
-    {
-        Debug.Log("OnFlyStart");
-    }
-
-    private void OnFlyEnd()
-    {
-        Debug.Log("OnFlyEnd");
-    }
-    
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
@@ -59,6 +50,8 @@ public class PlayerMover : MonoBehaviour
         cameraRigth.y = 0;
         
         Vector3 move = cameraForward * input.y + cameraRigth * input.x;
+        float speed = move.magnitude;
+        _animator.SetFloat("Speed", speed);
 
         _characterController.Move(move * _moveSpeed * Time.deltaTime);
 
@@ -71,6 +64,12 @@ public class PlayerMover : MonoBehaviour
         velocity.y = _moveDirectionY;
 
         _characterController.Move(velocity * Time.deltaTime);
+
+        if (_characterController.isGrounded && _isJumping)
+        {
+            _isJumping = false;
+            _animator.SetBool(AnimatortParameters.IsFlying, false);
+        }
         
         _animator.SetBool(AnimatortParameters.IsFlying, !_characterController.isGrounded);
     }
@@ -79,7 +78,9 @@ public class PlayerMover : MonoBehaviour
     {
         if (_characterController.isGrounded)
         {
-            _moveDirectionY = 10;
+            _isJumping = true;
+            _moveDirectionY = 10f;
+            _animator.SetBool(AnimatortParameters.IsFlying, true);
             Debug.Log("OnJump");
         }
     }
