@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerMover : MonoBehaviour
@@ -7,14 +8,26 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _gravity;
+    [SerializeField] private Transform _body;
+    [SerializeField] private Transform _animationTarget;
 
     private CharacterController _characterController;
     private Vector3 _moveDirection;
     private float _moveDirectionY;
+    private Animator _animator;
+    private bool _isJumping;
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        _body.DOMoveY(_animationTarget.position.y, 1f)
+            .SetEase(Ease.InOutSine)
+            .SetLoops(-1, LoopType.Yoyo);
     }
 
     private void OnEnable()
@@ -37,6 +50,8 @@ public class PlayerMover : MonoBehaviour
         cameraRigth.y = 0;
         
         Vector3 move = cameraForward * input.y + cameraRigth * input.x;
+        float speed = move.magnitude;
+        _animator.SetFloat("Speed", speed);
 
         _characterController.Move(move * _moveSpeed * Time.deltaTime);
 
@@ -49,13 +64,23 @@ public class PlayerMover : MonoBehaviour
         velocity.y = _moveDirectionY;
 
         _characterController.Move(velocity * Time.deltaTime);
+
+        if (_characterController.isGrounded && _isJumping)
+        {
+            _isJumping = false;
+            _animator.SetBool(AnimatortParameters.IsFlying, false);
+        }
+        
+        _animator.SetBool(AnimatortParameters.IsFlying, !_characterController.isGrounded);
     }
 
     private void OnJump()
     {
         if (_characterController.isGrounded)
         {
-            _moveDirectionY = 10;
+            _isJumping = true;
+            _moveDirectionY = 10f;
+            _animator.SetBool(AnimatortParameters.IsFlying, true);
             Debug.Log("OnJump");
         }
     }
