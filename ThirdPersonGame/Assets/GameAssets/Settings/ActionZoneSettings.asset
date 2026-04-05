@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fee264483148e4a88e37a756995fc5, type: 3}
+  m_Name: ActionZoneSettings
+  m_EditorClassIdentifier: Assembly-CSharp::DanceBattle.ActionZoneSettings
+  _playDuration: 2
+  _playThreshhold: 0.5
+  _playScale: {x: 1.75, y: 0.8}
+  _failColor: {r: 1, g: 0, b: 0.8506589, a: 0}
+  _failDuration: 0.3
