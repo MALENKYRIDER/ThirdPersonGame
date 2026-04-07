@@ -18,7 +18,7 @@ namespace DanceBattle
 
         public void Init(Action failed)
         {
-            _failed = failed;
+            _failed = failed; 
         }
 
         public bool CheckReady()
